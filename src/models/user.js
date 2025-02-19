@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const bycrypt = require('bycrypt');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const userSchema =new mongoose.Schema({
     firstName : {
@@ -32,13 +33,19 @@ const userSchema =new mongoose.Schema({
         type: Number,
         min: 18,
     },
+
+    
     gender:{
         type: String,
-        validate(value) {
-         if(!["male", "female", "others"].includes(value)){
-            throw new Error("Invalid");
-         }
+        enum: {
+            values: ["male", "female", "others"],
+            message: `{values} is not a valid gender type`
         },
+        // validate(value) {
+        //  if(!["male", "female", "others"].includes(value)){
+        //     throw new Error("Invalid");
+        //  }
+        // },
     },
     photoUrl:{
         type: String,
@@ -58,7 +65,7 @@ type: [String],
 );
 
 
-userSchema.method.getJWT = async function () {
+userSchema.methods.getJWT = async function () {
     const user = this;
   const token = await  jwt.sign({ _id :user._id }, "dev@ttinder@7789" , {
         expiresIn: "7d",
