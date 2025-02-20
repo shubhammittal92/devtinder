@@ -7,7 +7,7 @@ try
     const {token} = req.cookies;
     if(!token)
     {
-        throw new Error("Invalid token");
+        return res.status(401).send("Please Login!");
     }
 
     const decodeObj = await jwt.verify(token ,"dev@ttinder@7789");

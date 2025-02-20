@@ -48,11 +48,11 @@ requestRouter.post(
 
       const data = await connectionRequest.save();
 
-      const emailRes = await sendEmail.run(
-        "A new friend request from " + req.user.firstName,
-        req.user.firstName + " is " + status + " in " + toUser.firstName
-      );
-      console.log(emailRes);
+      // const emailRes = await sendEmail.run(
+      //   "A new friend request from " + req.user.firstName,
+      //   req.user.firstName + " is " + status + " in " + toUser.firstName
+      // );
+      // console.log(emailRes);
 
       res.json({
         message:
@@ -72,17 +72,23 @@ requestRouter.post(
     try {
       const loggedInUser = req.user;
       const { status, requestId } = req.params;
+      // console.log("Logged In User ID:", loggedInUser._id);
+      // console.log("Request ID:", requestId);
+      // console.log("New Status:", status);
+
 
       const allowedStatus = ["accepted", "rejected"];
       if (!allowedStatus.includes(status)) {
         return res.status(400).json({ messaage: "Status not allowed!" });
       }
 
+
       const connectionRequest = await ConnectionRequest.findOne({
         _id: requestId,
-        toUserId: loggedInUser._id,
+        // toUserId: loggedInUser._id,
         status: "interested",
       });
+      console.log(connectionRequest);
       if (!connectionRequest) {
         return res
           .status(404)
