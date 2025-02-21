@@ -13,7 +13,7 @@ const getSecretRoomId = (userId, targetUserId) => {
 const initializeSocket = (server) => {
   const io = socket(server, {
     cors: {
-      origin: "https://statuesque-lily-6b6a4f.netlify.app//",
+      origin: ["http://localhost:3000", "https://devtinder-web-opqj.onrender.com"],
     },
   });
 
