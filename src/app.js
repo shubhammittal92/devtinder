@@ -8,7 +8,7 @@ const http = require("http");
 
 app.use(
   cors({
-    origin: "https://teal-sundae-168d93.netlify.app/",
+    origin: "https://statuesque-lily-6b6a4f.netlify.app//",
     credentials: true,
   })
 );
