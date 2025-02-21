@@ -8,7 +8,8 @@ const http = require("http");
 
 app.use(
   cors({
-    origin: "https://statuesque-lily-6b6a4f.netlify.app",
+    origin:"https://statuesque-lily-6b6a4f.netlify.app",
+    // jsdsns
     credentials: true,
   })
 );
