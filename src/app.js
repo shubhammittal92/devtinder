@@ -8,7 +8,7 @@ const http = require("http");
 
 app.use(
   cors({
-    origin:"https://statuesque-lily-6b6a4f.netlify.app",
+    origin:"http://localhost:3000",
     // jsdsns
     credentials: true,
   })
@@ -34,7 +34,7 @@ const server = http.createServer(app);
 initializeSocket(server);
 
 const connectDB = async () => {
-  console.log("DB_CONNECTION_SECRET:", process.env.DB_CONNECTION_SECRET);
+  // console.log("DB_CONNECTION_SECRET:", process.env.DB_CONNECTION_SECRET);
   try {
     await mongoose.connect(process.env.DB_CONNECTION_SECRET);
     console.log("Database connected");
