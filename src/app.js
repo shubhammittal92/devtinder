@@ -8,7 +8,7 @@ const http = require("http");
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://teal-sundae-168d93.netlify.app/",
     credentials: true,
   })
 );
