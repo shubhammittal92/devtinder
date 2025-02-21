@@ -10,10 +10,11 @@ const port = process.env.PORT || 4000; // Default to 4000 if PORT is not set
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://devtinder-web-opqj.onrender.com"],
     credentials: true,
   })
 );
+
 
 app.use(express.json());
 app.use(cookieParser());
