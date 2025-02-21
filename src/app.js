@@ -1,20 +1,20 @@
+require("dotenv").config();
 const express = require("express");
-const connectDB = require("./config/database");
+const mongoose = require("mongoose");
 const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const http = require("http");
 
 app.use(
-    cors({
-      origin: "http://localhost:5173",
-      credentials: true,
-    })
-  );
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
-
 
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
@@ -29,17 +29,24 @@ app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", chatRouter);
 
-
-
 const server = http.createServer(app);
 initializeSocket(server);
 
+const connectDB = async () => {
+  console.log("DB_CONNECTION_SECRET:", process.env.DB_CONNECTION_SECRET);
+  try {
+    await mongoose.connect(process.env.DB_CONNECTION_SECRET);
+    console.log("Database connected");
+  } catch (err) {
+    console.error("Database connection failed:", err.message);
+  }
+};
+
 // Connect to Database and Start Server
 connectDB().then(() => {
-    console.log("Database connected");
-    server.listen(3000, () => {
-        console.log("Listening on port 3000");
-    });
+  server.listen(process.env.PORT, () => {
+    console.log("Listening on port 3000");
+  });
 }).catch(err => {
-    console.error("Database connection failed:", err.message);
+  console.error("Database connection failed:", err.message);
 });
