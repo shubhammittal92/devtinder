@@ -6,7 +6,7 @@ const cors = require("cors");
 const http = require("http");
 
 const app = express();
-const port = process.env.PORT || 4000; // Default to 4000 if PORT is not set
+const port = process.env.PORT || 3000; // Default to 4000 if PORT is not set
 
 app.use(
   cors({
