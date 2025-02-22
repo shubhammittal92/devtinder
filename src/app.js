@@ -10,12 +10,10 @@ const port = process.env.PORT || 4000; // Default to 4000 if PORT is not set
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://devtinder-web-opqj.onrender.com"],
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
-
-
 app.use(express.json());
 app.use(cookieParser());
 
@@ -28,6 +26,20 @@ const chatRouter = require("./routes/chat");
 const initializeSocket = require("./utils/socket");
 
 // Using Routes
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // Adjust if frontend URL changes
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  
+  // Handle Preflight Requests
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
