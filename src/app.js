@@ -6,11 +6,12 @@ const cors = require("cors");
 const http = require("http");
 
 const app = express();
-const port = process.env.PORT || 3000; // Default to 4000 if PORT is not set
+const port = process.env.PORT || 3000; // Default to 3000 if PORT is not set
 
+// CORS Configuration
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://devtinder-web-opqj.onrender.com", // Frontend URL
     credentials: true,
   })
 );
@@ -25,13 +26,13 @@ const userRouter = require("./routes/user");
 const chatRouter = require("./routes/chat");
 const initializeSocket = require("./utils/socket");
 
-// Using Routes
+// Middleware to Handle CORS Headers
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // Adjust if frontend URL changes
+  res.header("Access-Control-Allow-Origin", "https://devtinder-web-opqj.onrender.com"); // Frontend URL
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  
+
   // Handle Preflight Requests
   if (req.method === "OPTIONS") {
     return res.sendStatus(200);
@@ -40,17 +41,20 @@ app.use((req, res, next) => {
   next();
 });
 
+// Using Routes
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", chatRouter);
 
+// Create HTTP Server
 const server = http.createServer(app);
 
 // Initialize WebSocket
 initializeSocket(server);
 
+// Connect to MongoDB
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.DB_CONNECTION_SECRET, {
