@@ -15,6 +15,7 @@ const initializeSocket = (server) => {
     cors: {
       origin: "https://devtinder-web-opqj.onrender.com",
     },
+    path: "/api/socket.io", // Add this line
   });
 
   io.on("connection", (socket) => {
